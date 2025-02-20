@@ -14,20 +14,17 @@ func InitClipboard() {
 		log.Fatalln("Clipboard package not ready for use:", err)
 	}
 
-	fmt.Println("Clipboard initialized.")
-
+	log.Println("Clipboard initialized.")
 }
 
 func Copy(s *State) {
 	if s.imageBuffer.Len() != 0 {
-
-		// TODO: Use glfw's clipboard functions?
-		//clipboard.Write(clipboard.FmtImage, s.imageBuffer.Bytes())
-		extracted_text, err := Ocr(s)
+		extractedText, err := Ocr(s)
 		if err != nil {
+			log.Println("Failed to OCR text:", err)
 			return
 		}
-		clipboard.Write(clipboard.FmtText, []byte(extracted_text))
+		clipboard.Write(clipboard.FmtText, []byte(extractedText))
 
 	} else {
 		log.Println("Image buffer empty. Skipping clipboard copy.")
