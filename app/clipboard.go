@@ -24,8 +24,15 @@ func Copy(s *State) {
 			log.Println("Failed to OCR text:", err)
 			return
 		}
-		clipboard.Write(clipboard.FmtText, []byte(extractedText))
 
+		if extractedText == "" {
+			log.Println("OCR returned empty text.")
+			return nil
+		}
+
+		clipboard.Write(clipboard.FmtText, []byte(extractedText))
+		log.Println("Text coppied to clipboard.")
+		return nil
 	} else {
 		log.Println("Image buffer empty. Skipping clipboard copy.")
 	}
